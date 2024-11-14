@@ -76,6 +76,59 @@
             }
         }
     });
+    // $("#contact").on("submit", (e) => {
+    //     e.preventDefault();
+    //     const data = {
+    //         'name': $('input[name=name]').val(),
+    //         'email': $('input[name=email]').val(),
+    //         'cname': $('input[name=cname]').val(),
+    //         'cage': $('input[name=cage]').val(),
+    //         'content': $('textarea[name=content]').val(),
+    //         'csrfmiddlewaretoken': '{{ csrf_token }}'
+    //     };
+    //     $.post("http://127.0.0.1:8000/messages/receive_message/", data, () => {
+    //         console.log("all is okay");
+    //     });
     
+    //     e.target.reset();
+    //     });
+
 })(jQuery);
 
+// $.post("/receive_message/", data)
+// .done(() => {
+//     console.log("Form submission successful");
+//     alert("Your message has been sent!");
+// })
+// .fail(() => {
+//     console.error("Form submission failed");
+//     alert("There was an error. Please try again.");
+// });
+// e.target.reset();
+// });
+
+
+$(document).ready(function () {
+    $('#contactForm').on('submit', function (e) {
+        e.preventDefault();
+        
+        const formData = {
+            name: $('#name').val(),
+            email: $('#email').val(),
+            message: $('#message').val(),
+        };
+        
+        $.ajax({
+            url: 'process_form.php',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('#formResponse').html(response);
+                $('#contactForm')[0].reset();
+            },
+            error: function () {
+                $('#formResponse').html('<p class="text-danger">There was an error submitting your message.</p>');
+            }
+        });
+    });
+});
